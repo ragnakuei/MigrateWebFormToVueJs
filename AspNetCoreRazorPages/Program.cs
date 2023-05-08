@@ -1,7 +1,15 @@
+using AspNetCoreRazorPages.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+       .AddJsonOptions(options =>
+                       {
+                           options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                       });
+
+builder.Services.AddScoped<BookService>();
 
 var app = builder.Build();
 

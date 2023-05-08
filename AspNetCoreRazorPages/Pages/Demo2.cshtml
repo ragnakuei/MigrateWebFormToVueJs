@@ -1,0 +1,161 @@
+﻿@page
+@model Demo2
+@{
+    ViewData["Title"] = "Demo page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Books</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div id="app" >
+    <table class="table" >
+        <thead>
+            <tr>
+                <th>標題</th>
+                <th>作者</th>
+                <th>類型</th>
+                <th>價格</th>
+                <th>出版日期</th>
+                <th>功能列</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="book in form_dto.books" >
+                <td>{{ book.Title }}</td>
+                <td>{{ book.Author }}</td>
+                <td>{{ book.Genre }}</td>
+                <td>{{ book.PriceText }}</td>
+                <td>{{ book.PublishDateText }}</td>
+                <td>
+                    <button class="btn btn-primary" v-if="book.btn_edit_Visible" v-on:click="btn_edit_Click(book)">編輯</button>
+                    <button class="btn btn-primary" v-if="book.btn_delete_Visible" v-on:click="btn_delete_Click(book)">刪除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+        
+        createApp({
+            setup() {
+                const books = ref([]);
+                
+                // 頁面資料依據
+                const form_dto = ref({});
+                
+                async function Page_Load() {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(async () => {
+                            
+                            // event 執行流程
+                            console.log('Page_Load');
+                            
+                            form_dto.value.books = books.value.map(book => {
+                                // 這邊可以做 gv_OnRowDataBound event 執行流程
+                                
+                                book.btn_edit_Visible = book.Editable;
+                                book.btn_delete_Visible = book.Deletable;
+                                
+                                return book;
+                            });
+
+                            
+                            resolve();
+                        }, 0);
+                    });
+                }
+                
+                async function OnPreRender() {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            
+                            // event 執行流程
+                            console.log('OnPreRender'); 
+                            
+                            form_dto.value.IsPostBack = true;
+                            resolve();
+                        }, 0);
+                    });
+                }
+                
+                function btn_edit_Click(book) {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(async () => {
+                            await Page_Load();
+                            
+                            // event 執行流程
+                            console.log(book.Id);
+                            
+                            await OnPreRender();
+                            resolve();
+                        }, 0);
+                    });
+                }
+                
+                function btn_delete_Click(book) {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(async () => {
+                            await Page_Load();
+                           
+                            // event 執行流程
+                            console.log(book.Id);
+                            
+                            await OnPreRender();
+                            resolve();
+                        }, 0);
+                    });
+                }
+                
+                async function get_books() {
+                    const url = '@Url.Page("Demo2")' + '?handler=GetBooks';
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value, 
+                        }
+                    })
+                    
+                    const data = await response.json();
+                    
+                    const books = data.map(book => {
+                        // 這邊可以做 gv_OnRowDataBound event 執行流程
+                        
+                        book.btn_edit_Visible = book.Editable;
+                        book.btn_delete_Visible = book.Deletable;
+                        
+                        return book;
+                    });
+                    
+                    return books; 
+                }
+                
+                onMounted(async () => {
+                    
+                   form_dto.value.IsPostBack = false;
+                   books.value = await get_books(); 
+                   
+                   await Page_Load();
+                   await OnPreRender();
+                });
+                
+                return {
+                    books,
+                    form_dto,
+                    
+                    btn_edit_Click,
+                    btn_delete_Click,
+                }
+            }
+        })
+        .mount('#app');
+    </script>
+}

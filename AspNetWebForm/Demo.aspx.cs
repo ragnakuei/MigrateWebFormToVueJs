@@ -17,7 +17,6 @@ namespace AspNetWebForm
 
         protected void OnPreRender(object sender, EventArgs e)
         {
-         
             Console.WriteLine("OnPreRender");
         }
 
@@ -106,7 +105,7 @@ namespace AspNetWebForm
                 row["Price"]       = i * 10;
                 row["PublishDate"] = DateTime.Now.AddDays(i);
                 row["Editable"]    = i % 2 == 0;
-                row["Deletable"]   = i % 2 == 0;
+                row["Deletable"]   = i % 3 == 0;
                 books.Rows.Add(row);
             }
 
