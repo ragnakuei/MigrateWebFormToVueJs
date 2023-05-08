@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetWebForm", "AspNetWebForm\AspNetWebForm.csproj", "{1934A39F-825A-4A57-9240-987F13052611}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreRazorPages", "AspNetCoreRazorPages\AspNetCoreRazorPages.csproj", "{AF356854-4BB1-4209-8641-EF28F1B1BDD4}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1934A39F-825A-4A57-9240-987F13052611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1934A39F-825A-4A57-9240-987F13052611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1934A39F-825A-4A57-9240-987F13052611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1934A39F-825A-4A57-9240-987F13052611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF356854-4BB1-4209-8641-EF28F1B1BDD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF356854-4BB1-4209-8641-EF28F1B1BDD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF356854-4BB1-4209-8641-EF28F1B1BDD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF356854-4BB1-4209-8641-EF28F1B1BDD4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
