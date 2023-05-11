@@ -1,0 +1,439 @@
+﻿@page
+@model Demo
+@{
+	ViewData["Title"] = "Demo page";
+}
+<style>
+	[v-cloak] {
+		display: none;
+	}
+</style>
+
+<div class="text-center" >
+	<h1 class="display-4" >Demo Edit</h1>
+	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core" >building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div id="app"
+	 v-cloak >
+	<form v-on:submit.prevent="submit()" >
+
+		<div class="mb-3 row" >
+			<label class="col-form-label col-sm-2" >
+				Option
+			</label>
+			<div class="col-sm-10" >
+				<span class="form-check form-check-inline">
+								 <input class="form-check-input"
+								 id="rb_option_A"
+								 name="Option"
+								 type="radio"
+								 v-model="form_dto.rb_option"
+								 v-on:change="rb_option_OnCheckedChanged"
+								 value="A">
+								 <label class="form-check-label" for="rb_option_A">A</label>
+								 </span>
+				<span class="form-check form-check-inline">
+								 <input class="form-check-input"
+								 id="rb_option_B"
+								 name="Option"
+								 type="radio"
+								 v-model="form_dto.rb_option"
+								 v-on:change="rb_option_OnCheckedChanged"
+								 value="B">
+								 <label class="form-check-label" for="rb_option_B">B</label>
+								 </span>
+			</div>
+		</div>
+
+		<div class="mb-3 row"
+			 v-if="form_dto.div_status_Visible" >
+			<label class="col-form-label col-sm-2" >
+				Status
+			</label>
+			<div class="col-sm-10" >
+				<div class="form-check"
+					 v-if="form_dto.div_status_1_Visible" >
+
+					<input class="form-check-input"
+						   id="rb_status_1"
+						   name="Status"
+						   type="radio"
+						   v-bind:value.number="1"
+						   v-model="form_dto.rb_status"
+						   v-on:change="rb_status_OnCheckedChanged" >
+					<label class="form-check-label"
+						   for="rb_status_1" >
+						可用
+					</label>
+				</div>
+
+				<div class="align-items-center d-flex form-check gap-2 text-nowrap"
+					 v-if="form_dto.div_status_0_Visible" >
+					<input class="form-check-input"
+						   id="rb_status_0"
+						   name="Status"
+						   type="radio"
+						   v-bind:value.number="0"
+						   v-model="form_dto.rb_status"
+						   v-on:change="rb_status_OnCheckedChanged" >
+					<label class="form-check-label"
+						   for="rb_status_0" >
+						不可用
+					</label>
+
+					<input class="form-control form-inline"
+						   id="status_0_date"
+						   name="status_0_date"
+						   type="date"
+						   v-model="form_dto.status_0_date" >
+				</div>
+
+				<div class="align-items-center d-flex form-check gap-2 text-nowrap"
+					 v-if="form_dto.div_status_2_Visible" >
+					<input class="form-check-input"
+						   id="rb_status_2"
+						   name="Status"
+						   type="radio"
+						   v-bind:value.number="2"
+						   v-model="form_dto.rb_status"
+						   v-on:change="rb_status_OnCheckedChanged" >
+					<label class="form-check-label"
+						   for="rb_status_2" >
+						其他
+					</label>
+
+					<input class="form-control"
+						   id="status_2_date"
+						   name="status_2_date"
+						   type="date"
+						   v-model="form_dto.status_2_date" >
+				</div>
+			</div>
+		</div>
+
+		<template v-if="form_dto.div_1_Visible" >
+			<div class="mb-3 row" >
+				<label class="col-form-label col-sm-2"
+					   for="comment" >
+					Comment
+				</label>
+				<div class="col-sm-10" >
+					<textarea class="form-control"
+									 cols="20"
+									 id="comment"
+									 rows="2"
+									 v-model="form_dto.comment"></textarea>
+				</div>
+			</div>
+
+			<div class="mb-3 row"
+				 v-if="form_dto.div_2_Visible" >
+				<label class="col-form-label col-sm-2"
+					   for="ddl_1" >
+					ddl_1
+				</label>
+				<div class="col-sm-10" >
+					<select class="form-control"
+							id="ddl_1"
+							v-model="form_dto.ddl_1"
+							v-on:change="ddl_1_OnSelectedIndexChanged" >
+						<option value="" ></option>
+						<option value="Y" >Y</option>
+						<option value="N" >N</option>
+
+					</select>
+				</div>
+			</div>
+
+			<div class="mb-3 row"
+				 v-if="form_dto.div_ddl_2_Visible" >
+				<label class="col-form-label col-sm-2" for="ddl_2" >
+					ddl_2
+				</label>
+				<div class="col-sm-10" >
+					<select class="form-control"
+							id="ddl_2"
+							v-model="form_dto.ddl_2"
+							v-on:change="ddl_2_OnSelectedIndexChanged" >
+						<option v-if="form_dto.ddl_2_mode === 'N'"
+								value="N" >
+							N
+						</option>
+						<option v-if="form_dto.ddl_2_mode === 'Y'"
+								value="Y" >
+							Y
+						</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="mb-3 row" v-if="form_dto.div_publish_date_Visible" >
+				<label class="col-form-label col-sm-2" >
+					Publish Date
+				</label>
+				<div class="col-sm-10" >
+					<input class="form-control"
+						   id="tb_publish_date"
+						   type="date"
+						   v-model="form_dto.tb_publish_date" >
+				</div>
+			</div>
+
+			<div class="mb-3 row" >
+				<label class="col-form-label col-sm-2" >
+
+				</label>
+				<div class="col-sm-10" >
+					<input class="btn btn-primary"
+						   type="submit"
+						   value="Submit" />
+				</div>
+			</div>
+		</template>
+	</form>
+</div>
+
+@section Scripts
+{
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+	<script>
+        const { createApp, ref, onMounted } = Vue;
+        
+        createApp({
+            setup() {
+                
+                // 頁面資料依據
+                const form_dto = ref({});
+                
+                async function Page_Load() {
+                    return new Promise((resolve, reject) => {
+						// event 執行流程
+						console.log('Page_Load');
+						
+						resolve();
+                    });
+                }
+                
+                function Page_PreRender() {
+                    return new Promise(async (resolve, reject) => {
+						// event 執行流程
+						console.log('Page_PreRender'); 
+					
+						if (!form_dto.value.IsPostBack)
+						{
+							await rb_option_OnCheckedChanged(false);
+						}
+						
+						form_dto.value.IsPostBack = true;
+						resolve();
+                    });
+                }
+				
+				// 被觸發的情境有二種
+				// 1. 經由 PreRender 觸發，要明確指定 isPostBack = false，避免額外呼叫 Page_Load 及 Page_PreRender
+				// 2. 經由 rb_option 的 change 事件觸發，不需要指定 isPostBack
+				function rb_option_OnCheckedChanged(isPostBack = true) {
+					return new Promise((resolve, reject) => {
+						setTimeout(async () => {
+							
+							if (isPostBack) {
+								await Page_Load();
+							}
+							
+							// event 執行流程
+							console.log('rb_option_OnCheckedChanged');
+							
+							if (form_dto.value.rb_option === 'A')
+							{
+								form_dto.value.div_1_Visible        = true;
+								form_dto.value.div_status_Visible   = true;
+								form_dto.value.div_status_1_Visible = true;
+								form_dto.value.div_status_0_Visible = true;
+								form_dto.value.div_status_2_Visible = false;
+								
+								if (isPostBack) {
+									await Page_PreRender();
+								}
+								resolve();
+								return;
+							}
+					
+							if (form_dto.value.rb_option === 'B')
+							{
+								form_dto.value.div_1_Visible        = false;
+								form_dto.value.div_status_Visible   = true;
+								form_dto.value.div_status_1_Visible = false;
+								form_dto.value.div_status_0_Visible = false;
+								form_dto.value.div_status_2_Visible = true;
+								
+								if (isPostBack) {
+									await Page_PreRender();
+								}
+								resolve();
+								return;
+							}
+							
+							form_dto.value.div_1_Visible        = false;
+							form_dto.value.div_status_Visible   = false;
+							form_dto.value.div_status_1_Visible = false;
+							form_dto.value.div_status_0_Visible = false;
+							form_dto.value.div_status_2_Visible = false;
+							
+				
+							await rb_status_OnCheckedChanged(false);
+							
+							if (isPostBack) {
+								await Page_PreRender();
+							}
+							resolve();
+						},0);	
+					});
+				}
+				
+				function rb_status_OnCheckedChanged(isPostBack = true) {
+					return new Promise((resolve, reject) => {
+						setTimeout(async () => {
+							
+							if (isPostBack) {
+								await Page_Load();
+							}
+							
+							// event 執行流程
+							console.log('rb_status_OnCheckedChanged');
+				
+							if ([0, 1].includes(form_dto.value.rb_status))
+							{
+								form_dto.value.div_2_Visible = true;
+							}
+							else if (form_dto.value.rb_status === 2)
+							{
+								form_dto.value.div_2_Visible = false;
+							}
+				
+							form_dto.value.ddl_1 = null;
+							await ddl_1_OnSelectedIndexChanged(false);
+							
+							if (isPostBack) {
+								await Page_PreRender();
+							}
+							
+							resolve();
+						},0);
+					});
+				}
+				
+				function ddl_1_OnSelectedIndexChanged(isPostBack = true) {
+					return new Promise((resolve, reject) => {
+						setTimeout(async () => {
+							
+							if (isPostBack) {
+								await Page_Load();
+							}
+							// event 執行流程
+							console.log('ddl_1_OnSelectedIndexChanged');
+							
+							form_dto.value.div_ddl_2_Visible = false;
+							form_dto.value.ddl_2 = null;
+				
+							if (form_dto.value.rb_status === 0)
+							{
+								if (form_dto.value.ddl_1 === 'Y')
+								{
+									form_dto.value.ddl_2 = 'N';
+									form_dto.value.ddl_2_mode = 'N';
+									form_dto.value.div_ddl_2_Visible = true;
+								}
+
+								if (form_dto.value.ddl_1 === 'N')
+								{
+									form_dto.value.ddl_2 = 'Y';
+									form_dto.value.ddl_2_mode = 'Y';
+									form_dto.value.div_ddl_2_Visible = true;
+								}
+							}
+							else if (form_dto.value.rb_status === 1)
+							{
+								if (form_dto.value.ddl_1 === 'Y')
+								{
+									form_dto.value.ddl_2 = 'Y';
+									form_dto.value.ddl_2_mode = 'Y';
+									form_dto.value.div_ddl_2_Visible = true;
+								}
+
+								if (form_dto.value.ddl_1 === 'N')
+								{
+									form_dto.value.ddl_2 = 'N';
+									form_dto.value.ddl_2_mode = 'N';
+									form_dto.value.div_ddl_2_Visible = true;
+								}
+							}
+				
+							await ddl_2_OnSelectedIndexChanged(false);
+							
+							if (isPostBack) {
+								await Page_PreRender();
+							}
+							
+							resolve();
+						},0);
+					});
+				}
+				
+				function ddl_2_OnSelectedIndexChanged(isPostBack = true) {
+					return new Promise((resolve, reject) => {
+						setTimeout(async () => {
+							
+							if (isPostBack) {
+								await Page_Load();
+							}
+							
+							// event 執行流程
+							console.log('ddl_2_OnSelectedIndexChanged');
+							
+							if (form_dto.value.ddl_2 === 'Y')
+							{
+								form_dto.value.div_publish_date_Visible = true;
+							}
+							else if (form_dto.value.ddl_2 === 'N')
+							{
+								form_dto.value.div_publish_date_Visible = false;
+							}
+										
+							if (isPostBack) {
+								await Page_PreRender();
+							}
+							
+							resolve();
+						},0);
+					});
+				}
+                
+                function submit() {
+					console.log(form_dto.value);
+					
+					// 後續就把 form_dto 傳給後端，而後端就還以可以用 div_xxx_Visible 來判斷狀態 
+                }
+                
+                onMounted(async () => {
+                    // 這邊依照原本的頁面生命週期來呼叫，例：先執行 Page_Load()，再執行 Page_PreRender()
+                    
+                    form_dto.value.IsPostBack = false;
+                    await Page_Load();
+                    await Page_PreRender();
+                });
+                
+                return {
+                    form_dto,
+                    rb_option_OnCheckedChanged,
+                    rb_status_OnCheckedChanged,
+                    ddl_1_OnSelectedIndexChanged,
+                    ddl_2_OnSelectedIndexChanged,
+                    submit,
+                }
+            }
+        })
+        .mount('#app');
+    </script>
+}
